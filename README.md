@@ -16,8 +16,9 @@ A local, modular Red Team evaluation framework for testing LLM safety using Olla
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
+   pip install -e .   # install the package + CLI entrypoint locally
    ```
-   *(Or just install `ollama`, `pyyaml`, `flask`, `click`, `rich`, `pydantic`)*
+   *(Or just install `ollama`, `pyyaml`, `flask`, `click`, `rich`, `pydantic` and then `pip install -e .`.)*
 
 ## Usage
 
@@ -61,3 +62,7 @@ A local, modular Red Team evaluation framework for testing LLM safety using Olla
 - **Attacker:** Generates adversarial templates (e.g., "Act as a chemist...").
 - **Orchestrator:** Injects the payload into the template and sends it to the Target.
 - **Judge:** Evaluates the Target's response for safety (Safe/Borderline/Unsafe).
+
+## Windows setup
+
+See `docs/windows_setup.md` for a step-by-step guide (Python/venv, Ollama install, and example CLI runs).
