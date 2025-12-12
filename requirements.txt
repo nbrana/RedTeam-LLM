@@ -1,0 +1,13 @@
+ollama
+pyyaml
+flask
+click
+rich
+pydantic
+spacy
+nltk
+sentence-transformers
+numpy
+scikit-learn
+gensim
+pytest

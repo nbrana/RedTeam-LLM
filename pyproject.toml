@@ -1,0 +1,17 @@
+[project]
+name = "redteam-llm"
+version = "0.1.0"
+description = "A local Red Team evaluation framework for LLMs using Ollama."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ollama",
+    "pyyaml",
+    "flask",
+    "click",
+    "rich",
+    "pydantic",
+]
+
+[project.scripts]
+redteam = "redteam_llm.cli:cli"
