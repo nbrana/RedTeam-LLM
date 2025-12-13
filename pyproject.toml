@@ -11,6 +11,8 @@ dependencies = [
     "click",
     "rich",
     "pydantic",
+    "pandas>=2.3.3",
+    "datasets>=4.4.1",
 ]
 
 [project.scripts]
