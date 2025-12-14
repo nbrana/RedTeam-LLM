@@ -6,21 +6,20 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from redteam.modules.g2pia_defensive import (
+    SAFETY_BANNER,
+    evaluate_attack_set,
+    load_dataset,
+)
+from .config import G2PIAConfig, load_config
+from .orchestrator import RedTeamOrchestrator
+from .types import SafetyLabel
+
 # Ensure local modules (including `redteam.modules`) are importable when running from source.
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SRC_DIR = PROJECT_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
-
-from redteam.modules.g2pia_defensive import (  # noqa: E402
-    SAFETY_BANNER,
-    evaluate_attack_set,
-    load_dataset,
-)
-
-from .config import G2PIAConfig, load_config
-from .orchestrator import RedTeamOrchestrator
-from .types import SafetyLabel
 
 console = Console()
 
@@ -46,7 +45,7 @@ def run(config, output):
         console.print(f"[bold red]Error:[/bold red] Config file '{config}' not found.")
         return
 
-    console.print(f"[bold green]Starting session with:[/bold green]")
+    console.print("[bold green]Starting session with:[/bold green]")
     console.print(f"  Target: {cfg.target_model}")
     console.print(f"  Attacker: {cfg.attacker_model}")
     console.print(f"  Judge: {cfg.judge_model}")

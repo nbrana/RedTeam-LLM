@@ -1,13 +1,12 @@
 import sys
 from pathlib import Path
-import pytest
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.append(str(ROOT / "src"))
 
 from redteam_llm.judge import SafetyJudge
 from redteam_llm.llm import LLMInterface
 from redteam_llm.types import SafetyLabel
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.append(str(ROOT / "src"))
 
 def test_evaluate_parses_structured_text(monkeypatch):
     class MockLLM(LLMInterface):

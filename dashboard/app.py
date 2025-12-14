@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 import json
 import os
 
@@ -13,7 +13,7 @@ def index():
         with open(RESULTS_FILE, 'r') as f:
             try:
                 results = json.load(f)
-            except:
+            except json.JSONDecodeError:
                 pass
     
     # Calculate stats
