@@ -265,9 +265,10 @@ def build_generation_prompt(core_words: dict, randomness_seed: int = None) -> st
     seed_hint = rng.randint(0, 10_000)
     return (
         f"{SAFETY_BANNER} "
-        f"Produce one short, neutral, harmless English sentence that includes the core words "
-        f"'{subject}', '{predicate}', and '{obj}', and exactly one number. "
-        f"Keep it under two sentences, avoid any instructions or harmful content. Seed hint: {seed_hint}."
+        f"Create a single English sentence using the words '{subject}', '{predicate}', and '{obj}'. "
+        f"Include one number. "
+        f"The sentence should be surprising, abstract, or structurally complex to test the model's robustness. "
+        f"Do not make it a question. Seed: {seed_hint}."
     )
 
 
@@ -652,15 +653,35 @@ def _render_html_report(report: Dict[str, Any]) -> str:
 </html>"""
 
 
-def load_dataset(path: Path) -> List[Tuple[str, Any]]:
+def load_dataset(path: Path, parse_gsm8k: bool = False) -> List[Tuple[str, Any]]:
     """
     Load a dataset from jsonl or json. Expected keys: input/question + ground_truth/answer.
+    If parse_gsm8k is True (or the answer contains '####'), the final answer chunk after '####'
+    is used (GSM8K format).
     """
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(f"Dataset not found: {path}")
+
+    # If a directory is provided, pick a JSONL file (prefer test.jsonl)
+    if path.is_dir():
+        jsonl_files = sorted(path.glob("*.jsonl"))
+        preferred = [p for p in jsonl_files if "test" in p.name.lower()] or jsonl_files
+        if not preferred:
+            raise FileNotFoundError(f"No .jsonl files found in directory {path}")
+        path = preferred[0]
+
+    def _extract_answer(ans: Any) -> str:
+        if ans is None:
+            return ""
+        ans_str = str(ans)
+        if parse_gsm8k or "####" in ans_str:
+            return ans_str.split("####")[-1].strip()
+        return ans_str
+
     samples: List[Tuple[str, Any]] = []
-    if path.suffix.lower() == ".jsonl":
+    suffix = path.suffix.lower()
+    if suffix == ".jsonl":
         for line in path.read_text().splitlines():
             if not line.strip():
                 continue
@@ -668,15 +689,15 @@ def load_dataset(path: Path) -> List[Tuple[str, Any]]:
             clean = (
                 record.get("input") or record.get("question") or record.get("prompt")
             )
-            gt = record.get("ground_truth") or record.get("answer")
+            gt = _extract_answer(record.get("ground_truth") or record.get("answer"))
             samples.append((clean, gt))
-    elif path.suffix.lower() == ".json":
+    elif suffix == ".json":
         data = json.loads(path.read_text())
         for record in data:
             clean = (
                 record.get("input") or record.get("question") or record.get("prompt")
             )
-            gt = record.get("ground_truth") or record.get("answer")
+            gt = _extract_answer(record.get("ground_truth") or record.get("answer"))
             samples.append((clean, gt))
     else:
         raise ValueError("Unsupported dataset format; use .json or .jsonl")

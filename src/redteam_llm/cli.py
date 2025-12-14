@@ -187,7 +187,11 @@ def run_g2pia(
 
     dataset_path = Path(dataset)
     try:
-        samples = load_dataset(dataset_path)
+        parse_gsm8k = (
+            "gsm8k" in dataset_path.name.lower()
+            or "gsm8k" in str(dataset_path.parent.name).lower()
+        )
+        samples = load_dataset(dataset_path, parse_gsm8k=parse_gsm8k)
     except Exception as exc:
         console.print(f"[bold red]Failed to load dataset:[/bold red] {exc}")
         return

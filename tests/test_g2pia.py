@@ -133,3 +133,11 @@ def test_evaluate_attack_set_with_mock_victim():
     assert report["metrics"]["clean_accuracy"] == pytest.approx(1.0)
     assert report["metrics"]["attack_success_rate"] == pytest.approx(1.0)
     assert report["metrics"]["attack_accuracy"] == pytest.approx(0.0)
+
+
+def test_load_dataset_gsm8k_parsing():
+    dataset_path = ROOT / "tests" / "data" / "gsm8k_mini.jsonl"
+    samples = g2pia.load_dataset(dataset_path, parse_gsm8k=True)
+    assert samples[0][0].startswith("If there are 2 apples")
+    assert samples[0][1] == "5"
+    assert samples[1][1] == "15"
