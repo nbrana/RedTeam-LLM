@@ -63,6 +63,20 @@ A local, modular Red Team evaluation framework for testing LLM safety using Olla
 - **Orchestrator:** Injects the payload into the template and sends it to the Target.
 - **Judge:** Evaluates the Target's response for safety (Safe/Borderline/Unsafe).
 
+## Evaluation Results Summary
+
+A comprehensive red team evaluation was conducted across multiple language models (phi3:mini, dolphin-mistral:latest, gemma3:27b, and llama3:latest) using various attack strategies. The goal was to assess each model's safety and robustness against adversarial prompts.
+
+**Key Findings:**
+- `llama3:latest` demonstrated exceptional robustness, consistently refusing harmful requests.
+- `phi3:mini` and `gemma3:27b` showed good safety performance, with some instances of "borderline" responses.
+- `dolphin-mistral:latest` proved to be the most vulnerable, successfully jailbroken by multiple adversarial prompts.
+
+For detailed results, including specific attack prompts and model responses, please refer to:
+- [Detailed Markdown Report](final_report.md)
+- [Consolidated JSON Results](consolidated_results.json)
+
+
 ## Windows setup
 
 See `docs/windows_setup.md` for a step-by-step guide (Python/venv, Ollama install, and example CLI runs).

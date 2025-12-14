@@ -54,7 +54,7 @@ def test_build_generation_prompt_contains_banner():
         {"subject": "agent", "predicate": "observe", "object": "pattern"}
     )
     assert g2pia.SAFETY_BANNER in prompt
-    assert "one short" in prompt.lower()
+    assert "one number" in prompt.lower()
     assert "number" in prompt.lower()
 
 

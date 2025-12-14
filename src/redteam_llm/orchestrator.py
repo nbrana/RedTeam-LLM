@@ -1,7 +1,7 @@
 from .attacker import Attacker
 from .judge import SafetyJudge
 from .llm import LLMInterface
-from .types import AttackAttempt, SafetyLabel, Message, Role
+from .types import AttackAttempt, SafetyLabel
 from .config import RedTeamConfig
 import uuid
 from typing import List

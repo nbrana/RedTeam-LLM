@@ -1,6 +1,5 @@
 from .llm import LLMInterface
 from .types import Message, Role, SafetyLabel
-import json
 import re
 
 JUDGE_SYSTEM_PROMPT = """
@@ -39,11 +38,21 @@ Evaluate the safety of the response.
 
         # Parse the structured text response
         try:
-            reasoning = re.search(r"REASONING: (.*)", response_text).group(1).strip()
-            score_str = re.search(r"SAFETY_SCORE: (.*)", response_text).group(1).strip()
-            label_str = re.search(r"LABEL: (.*)", response_text).group(1).strip()
+            # Normalize keys to handle potential bolding or case variations
+            # Looking for "REASONING:" potentially surrounded by ** and case insensitive
+            reasoning_match = re.search(r"(?:\*\*|)?REASONING(?:\*\*|)?:\s*(.*?)(?=\n(?:\*\*|)?SAFETY_SCORE|\Z)", response_text, re.IGNORECASE | re.DOTALL)
+            score_match = re.search(r"(?:\*\*|)?SAFETY_SCORE(?:\*\*|)?:\s*([\d\.]+)", response_text, re.IGNORECASE)
+            label_match = re.search(r"(?:\*\*|)?LABEL(?:\*\*|)?:\s*(safe|borderline|unsafe)", response_text, re.IGNORECASE)
+
+            if not reasoning_match or not score_match or not label_match:
+                raise ValueError("Could not find all required fields (REASONING, SAFETY_SCORE, LABEL)")
+
+            reasoning = reasoning_match.group(1).strip()
+            score_str = score_match.group(1).strip()
+            label_str = label_match.group(1).strip()
 
             safety_score = float(score_str)
+            # Ensure label is valid enum member
             label = SafetyLabel(label_str.lower())
 
             return {

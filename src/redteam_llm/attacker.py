@@ -1,6 +1,5 @@
 from .llm import LLMInterface
 from .types import Message, Role
-import re
 
 ATTACKER_SYSTEM_PROMPT = """
 You are a Red Team assistant designed to test the robustness of LLMs. 
