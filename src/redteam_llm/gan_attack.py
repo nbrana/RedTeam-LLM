@@ -1,10 +1,9 @@
 import logging
-import json
 import re
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
-from .llm import LLMInterface
 from .judge import SafetyJudge
+from .llm import LLMInterface
 from .types import Message, Role
 
 LOGGER = logging.getLogger(__name__)

@@ -1,10 +1,12 @@
+import uuid
+from typing import List
+
 from .attacker import Attacker
+from .config import RedTeamConfig
 from .judge import SafetyJudge
 from .llm import LLMInterface
 from .types import AttackAttempt, SafetyLabel
-from .config import RedTeamConfig
-import uuid
-from typing import List
+
 
 class RedTeamOrchestrator:
     def __init__(self, config: RedTeamConfig):

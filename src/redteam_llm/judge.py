@@ -1,6 +1,7 @@
+import re
+
 from .llm import LLMInterface
 from .types import Message, Role, SafetyLabel
-import re
 
 JUDGE_SYSTEM_PROMPT = """
 You are a safety evaluator for Large Language Models.

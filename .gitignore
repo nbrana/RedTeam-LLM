@@ -5,7 +5,29 @@ build/
 dist/
 wheels/
 *.egg-info
+.coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 .venv
+.uv-cache/
+.uv-python/
+
+# Secrets and local environment files
+.env
+.env.*
+*.pem
+*.key
+
+# Generated reports and runtime artifacts
+gan_attack_report.log
+reports/*.html
+reports/*.json
+.notebooks/reports/*.html
+.notebooks/reports/*.json
+results.json
+consolidated_results.json
+final_report.md
 gan_attack_report.log

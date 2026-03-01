@@ -11,6 +11,7 @@ from redteam.modules.g2pia_defensive import (
     evaluate_attack_set,
     load_dataset,
 )
+
 from .config import G2PIAConfig, load_config
 from .orchestrator import RedTeamOrchestrator
 from .types import SafetyLabel

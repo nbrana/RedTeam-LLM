@@ -1,14 +1,23 @@
-ollama
-pyyaml
-flask
+# Runtime dependencies (mirrors `pyproject.toml`).
 click
-rich
+datasets>=4.4.1
+flask
+numpy
+ollama
+pandas>=2.3.3
 pydantic
-spacy
+pyyaml
+rich
+
+# Optional G2PIA extras.
+gensim
 nltk
 sentence-transformers
-numpy
-scikit-learn
-gensim
+spacy
+
+# Developer tooling.
+mypy
 pytest
+pytest-cov
 ruff
+types-PyYAML
